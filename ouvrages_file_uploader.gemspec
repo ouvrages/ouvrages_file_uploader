@@ -18,7 +18,13 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.2.22"
   s.add_dependency "paperclip"
-  # s.add_dependency "jquery-rails"
+  s.add_dependency "jquery-fileupload-rails"
+  s.add_dependency "coffee-rails"
+  s.add_dependency "haml_coffee_assets"
+  s.add_dependency "haml-rails"
 
   s.add_development_dependency "sqlite3"
+  s.add_development_dependency "guard-rails"
+  s.add_development_dependency "quiet_assets"
+  s.add_development_dependency "meta_request"
 end

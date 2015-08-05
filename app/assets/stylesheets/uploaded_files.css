@@ -1,0 +1,14 @@
+/*
+*= require jquery.fileupload
+*= require jquery.fileupload-ui
+*/
+
+.progress-bar {
+  background-color: red;
+  height: 10px;
+}
+
+.ofu-files-container {
+  width: 225px;
+  height: 225px;
+}

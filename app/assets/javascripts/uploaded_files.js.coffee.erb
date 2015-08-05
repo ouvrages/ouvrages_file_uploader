@@ -1,0 +1,69 @@
+#= require hamlcoffee
+#= require jquery-fileupload
+#= require_tree ./templates
+
+fileCount = 0
+
+$(document).ready ->
+  $('form').bind 'submit', (e) ->
+    if fileCount > 0
+      return false
+    else
+      return true
+  $('.ofu-field').each ->
+    $(this).find('.ofu-input').fileupload(
+      autoUpload: true
+      url: "<%= Rails.application.routes.url_helpers.resend_file_path() %>"
+      uploadTemplateId: null
+      downloadTemplateId: null
+      uploadTemplate: (o) ->
+        console.log "upload:", o
+        rows = $()
+        $.each o.files, (index, file) ->
+          fileCount++
+          console.log "upload-each:", file
+          row = $(JST['templates/upload']
+            file: file
+            o: o
+          )
+          rows = rows.add(row)
+        rows
+      downloadTemplate: (o) ->
+        console.log "download:", o
+        fileInput = $(o['options']['fileInput'][0])
+        rows = $()
+        $.each o.files, (index, file) ->
+          console.log "download-each:", file
+          row = $(JST['templates/download']
+            file: file
+            o: o
+          )
+          fileInput.parents('.ofu-field').find('input[type=hidden]').val(file.id)
+          preview = file.url
+          $(this).parent().parent().find('.ofu-files-preview').append(preview)
+          rows = rows.add(row)
+        rows
+      progressall: (e, data) ->
+        progress = parseInt(data.loaded / data.total * 100, 10)
+        $(this).find('.progress-bar').css('width', progress + "%")
+      always: (e, data) ->
+        console.log("ENABLE") if fileCount == 0
+        return
+    ).bind('fileuploadstart', (e, data) ->
+      console.log("DISABLE")
+      return
+    ).bind('fileuploaddone', (e, data) ->
+      console.log("FINISH")
+      fileCount--
+      return
+    ).bind('fileuploadfail', (e, data) ->
+      fileCount--
+      return
+    ).bind('fileuploadadd', (e, data) ->
+      $(this).parent().parent().find('.ofu-files-container').empty()
+      return
+    )
+
+$(window).bind 'beforeunload', ->
+  if fileCount > 0
+    console.log("PREVENT")

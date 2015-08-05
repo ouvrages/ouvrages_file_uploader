@@ -1,0 +1,4 @@
+%div.ofu-field
+  = file_field_tag nil, class: "ofu-input", data: { "files-container" => ".ofu-files-container"}
+  = form.hidden_field "#{attachment}_uploaded_file_id"
+  .ofu-files-container
