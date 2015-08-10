@@ -13,14 +13,12 @@ module OuvragesFileUploader
       instance_variable_set("@#{attachment_uploaded_file_id}", id)
       if uploaded_file = UploadedFile.where(id: id).first
         self.send("#{attachment}=",  File.open(uploaded_file.file.path))
-      else
-        raise "No uploaded file found for #{attachment} with ID: #{id.inspect}"
       end
     end
   end
   module Helpers
-    def file_upload(form, attachment)
-      render partial: "/uploaded_files/file_upload", locals: { form: form, attachment: attachment}
+    def file_upload(form, attachment, options = {})
+      render partial: "/uploaded_files/file_upload", locals: { form: form, attachment: attachment, options: options}
     end
   end
 end

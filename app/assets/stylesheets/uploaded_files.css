@@ -3,12 +3,13 @@
 *= require jquery.fileupload-ui
 */
 
-.progress-bar {
-  background-color: red;
-  height: 10px;
+.bar {
+  background-color: #51a351;
+  height: 20px;
+  color: white;
+  text-align: center;
 }
 
 .ofu-files-container {
   width: 225px;
-  height: 225px;
 }

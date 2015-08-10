@@ -2,6 +2,7 @@
 #= require jquery-fileupload
 #= require_tree ./templates
 
+
 fileCount = 0
 
 $(document).ready ->
@@ -10,59 +11,37 @@ $(document).ready ->
       return false
     else
       return true
-  $('.ofu-field').each ->
-    $(this).find('.ofu-input').fileupload(
-      autoUpload: true
-      url: "<%= Rails.application.routes.url_helpers.resend_file_path() %>"
-      uploadTemplateId: null
-      downloadTemplateId: null
-      uploadTemplate: (o) ->
-        console.log "upload:", o
-        rows = $()
-        $.each o.files, (index, file) ->
-          fileCount++
-          console.log "upload-each:", file
-          row = $(JST['templates/upload']
-            file: file
-            o: o
-          )
-          rows = rows.add(row)
-        rows
-      downloadTemplate: (o) ->
-        console.log "download:", o
-        fileInput = $(o['options']['fileInput'][0])
-        rows = $()
-        $.each o.files, (index, file) ->
-          console.log "download-each:", file
-          row = $(JST['templates/download']
-            file: file
-            o: o
-          )
-          fileInput.parents('.ofu-field').find('input[type=hidden]').val(file.id)
-          preview = file.url
-          $(this).parent().parent().find('.ofu-files-preview').append(preview)
-          rows = rows.add(row)
-        rows
-      progressall: (e, data) ->
-        progress = parseInt(data.loaded / data.total * 100, 10)
-        $(this).find('.progress-bar').css('width', progress + "%")
-      always: (e, data) ->
-        console.log("ENABLE") if fileCount == 0
+  $(document).bind "items.item_added ready", ->
+    $('.ofu-field').each ->
+      $(this).find('.ofu-input').fileupload(
+        autoUpload: true
+        url: "<%= Rails.application.routes.url_helpers.file_upload_path() %>"
+        uploadTemplateId: null
+        downloadTemplateId: null
+        paramName: 'files[]'
+        progressall: (e, data) ->
+          progress = parseInt(data.loaded / data.total * 100, 10)
+          $(this).parents('.ofu-field').find('.bar').css('width', progress + "%").text(progress + "%")
+      ).bind('fileuploadstart', (e, data) ->
+        $(this).parents('.ofu-field').find('.ofu-files-container').empty()
+        $(this).parents('.ofu-field').find('.ofu-files-container').append("<div class='progress'><div class='bar' style='width: 0;'></div></div>")
         return
-    ).bind('fileuploadstart', (e, data) ->
-      console.log("DISABLE")
-      return
-    ).bind('fileuploaddone', (e, data) ->
-      console.log("FINISH")
-      fileCount--
-      return
-    ).bind('fileuploadfail', (e, data) ->
-      fileCount--
-      return
-    ).bind('fileuploadadd', (e, data) ->
-      $(this).parent().parent().find('.ofu-files-container').empty()
-      return
-    )
+      ).bind('fileuploaddone', (e, data) ->
+        $(this).parents('.ofu-field').find('input[type=hidden]').val(data.result.files[0].id)
+        if $(data.files[0].preview).is("canvas")
+          $(this).parents('.ofu-field').parent().parent().find('.preview').html("<img src=" +data.result.files[0].url + "style='width: 300px; height: 188px;' />")
+        else if $(data.files[0].preview).is("video")
+          $(this).parents('.ofu-field').parent().parent().find('.preview').html("<video controls='controls' width='300' height='225' src="+data.result.files[0].url + "></video>")
+
+        fileCount--
+        return
+      ).bind('fileuploadfail', (e, data) ->
+        fileCount--
+        return
+      ).bind('fileuploadadd', (e, data) ->
+        $(this).parents('.ofu-field').find('.ofu-files-container').empty()
+        return
+      )
 
 $(window).bind 'beforeunload', ->
   if fileCount > 0

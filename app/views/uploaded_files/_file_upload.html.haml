@@ -1,4 +1,5 @@
 %div.ofu-field
-  = file_field_tag nil, class: "ofu-input", data: { "files-container" => ".ofu-files-container"}
+  - opts = { class: "ofu-input", data: { "files-container" => ".ofu-files-container"} }.merge(options)
+  = form.file_field attachment, opts
   = form.hidden_field "#{attachment}_uploaded_file_id"
   .ofu-files-container

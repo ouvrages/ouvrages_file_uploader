@@ -1,5 +1,5 @@
 class UploadedFilesController < ApplicationController
-  def resend_file
+  def file_upload
     uploaded_file = UploadedFile.new(file: params[:files][0])
     if uploaded_file.save
       render json: {

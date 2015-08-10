@@ -7,11 +7,11 @@ require "ouvrages_file_uploader/version"
 Gem::Specification.new do |s|
   s.name        = "ouvrages_file_uploader"
   s.version     = OuvragesFileUploader::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of OuvragesFileUploader."
-  s.description = "TODO: Description of OuvragesFileUploader."
+  s.authors     = ["Florent FERRY"]
+  s.email       = ["florent@ouvrages-web.fr"]
+  s.homepage    = "http://ouvrages-web.fr"
+  s.summary     = "Ouvrages File Uploader"
+  s.description = "Ouvrages File Uploader"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
@@ -24,7 +24,5 @@ Gem::Specification.new do |s|
   s.add_dependency "haml-rails"
 
   s.add_development_dependency "sqlite3"
-  s.add_development_dependency "guard-rails"
-  s.add_development_dependency "quiet_assets"
-  s.add_development_dependency "meta_request"
+  #s.add_development_dependency "guard-rails"
 end
