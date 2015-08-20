@@ -38,8 +38,7 @@ $(document).ready ->
       return false
     else
       return true
-  $(document).bind "items.item_added ready", ->
-    $('.ofu-field[data-auto=true]').ouvragesFileUpload()
+  $('.ofu-field[data-auto=true]').ouvragesFileUpload()
 
 $(window).bind 'beforeunload', ->
   if fileCount > 0
