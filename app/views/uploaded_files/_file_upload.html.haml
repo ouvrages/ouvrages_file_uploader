@@ -1,4 +1,4 @@
-%div.ofu-field
+%div.ofu-field{data: {auto: options.fetch(:auto, true) ? "true" : "false"}}
   - options = options.dup
   - classes = (options.delete(:class) || "").split
   - classes << "ofu-input"
