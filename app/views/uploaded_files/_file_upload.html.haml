@@ -1,5 +1,10 @@
 %div.ofu-field
-  - opts = { class: "ofu-input", data: { "files-container" => ".ofu-files-container"} }.merge(options)
-  = form.file_field attachment, opts
+  - options = options.dup
+  - classes = (options.delete(:class) || "").split
+  - classes << "ofu-input"
+  - data = (options.delete(:data) || {})
+  - data["files-container"] = ".ofu-files-container"
+  - options = options.merge(class: classes.join(" "), data: data)
+  = form.file_field attachment, options
   = form.hidden_field "#{attachment}_uploaded_file_id"
   .ofu-files-container

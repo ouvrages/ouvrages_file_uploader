@@ -18,7 +18,7 @@ module OuvragesFileUploader
   end
   module Helpers
     def file_upload(form, attachment, options = {})
-      render partial: "/uploaded_files/file_upload", locals: { form: form, attachment: attachment, options: options}
+      render partial: "/uploaded_files/file_upload", locals: { form: form, attachment: attachment, options: options.with_indifferent_access}
     end
   end
 end
