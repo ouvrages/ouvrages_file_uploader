@@ -10,9 +10,11 @@ module OuvragesFileUploader
     attr_reader attachment_uploaded_file_id.to_sym
     attr_accessible attachment_uploaded_file_id.to_sym
     define_method("#{attachment_uploaded_file_id}=") do |id|
-      instance_variable_set("@#{attachment_uploaded_file_id}", id)
-      if uploaded_file = UploadedFile.where(id: id).first
-        self.send("#{attachment}=",  File.open(uploaded_file.file.path))
+      unless id.blank?
+        instance_variable_set("@#{attachment_uploaded_file_id}", id)
+        if uploaded_file = UploadedFile.where(id: id).first
+          self.send("#{attachment}=",  File.open(uploaded_file.file.path))
+        end
       end
     end
   end
