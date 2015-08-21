@@ -7,8 +7,8 @@ require "ouvrages_file_uploader/version"
 Gem::Specification.new do |s|
   s.name        = "ouvrages_file_uploader"
   s.version     = OuvragesFileUploader::VERSION
-  s.authors     = ["Florent FERRY"]
-  s.email       = ["florent@ouvrages-web.fr"]
+  s.authors     = ["Ouvrages"]
+  s.email       = ["contact@ouvrages-web.fr"]
   s.homepage    = "http://ouvrages-web.fr"
   s.summary     = "Ouvrages File Uploader"
   s.description = "Ouvrages File Uploader"
