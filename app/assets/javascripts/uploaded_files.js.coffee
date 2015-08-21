@@ -12,27 +12,28 @@ $.fn.ouvragesFileUpload = ->
         progress = parseInt(data.loaded / data.total * 100, 10)
         $(this).closest('.ofu-field').find('.ofu-progress-bar').css('width', progress + "%").text(progress + "%")
     ).bind('fileuploadstart', (e, data) ->
+      window.ofuFileCount++
       $(this).closest('.ofu-field').find('.ofu-files-container').empty()
       $(this).closest('.ofu-field').find('.ofu-files-container').append("<div class='progress'><div class='ofu-progress-bar bar' style='width: 0;'></div></div>")
       return
     ).bind('fileuploaddone', (e, data) ->
       $(this).closest('.ofu-field').find('input[type=hidden]').val(data.result.files[0].id)
 
-      fileCount--
+      window.ofuFileCount--
       return
     ).bind('fileuploadfail', (e, data) ->
-      fileCount--
+      window.ofuFileCount--
       return
     ).bind('fileuploadadd', (e, data) ->
       $(this).closest('.ofu-field').find('.ofu-files-container').empty()
       return
     )
 
-fileCount = 0
+window.ofuFileCount = 0
 
 $(document).ready ->
   $('.ofu-field[data-auto=true]').ouvragesFileUpload()
 
 $(window).bind 'beforeunload', ->
-  if fileCount > 0
+  if window.ofuFileCount > 0
     console.log("PREVENT")
