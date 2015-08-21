@@ -1,5 +1,0 @@
-.file
-  %span
-    #{@file.name} #{@o.formatFileSize(@file.size)}
-  .progress
-    .progress-bar{:style => 'width:0'}
