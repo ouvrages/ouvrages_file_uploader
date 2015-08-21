@@ -3,7 +3,7 @@
 *= require jquery.fileupload-ui
 */
 
-.bar {
+.ofu-progress-bar .bar {
   background-color: #51a351;
   height: 20px;
   color: white;

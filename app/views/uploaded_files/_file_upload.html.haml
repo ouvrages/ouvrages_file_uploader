@@ -1,4 +1,4 @@
-%div.ofu-field{data: {auto: options.fetch(:auto, true) ? "true" : "false"}}
+%div.ofu-field{data: {auto: options.fetch(:auto, true) ? "true" : "false", url: file_upload_path} }
   - options = options.dup
   - classes = (options.delete(:class) || "").split
   - classes << "ofu-input"

@@ -12,6 +12,12 @@ class UploadedFilesController < ApplicationController
           }
         ]
       }
+    else
+      render json: {
+        error: {
+          "message" => "An error prevents the uploaded file to be saved"
+        }
+      }
     end
   end
 end
