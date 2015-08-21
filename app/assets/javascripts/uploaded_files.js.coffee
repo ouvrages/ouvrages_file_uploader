@@ -4,7 +4,7 @@ $.fn.ouvragesFileUpload = ->
   this.each ->
     $(this).find('.ofu-input').fileupload(
       autoUpload: true
-      url: "<%= Rails.application.routes.url_helpers.file_upload_path() %>"
+      url: $(this).closest('.ofu-field').data('url')
       uploadTemplateId: null
       downloadTemplateId: null
       paramName: 'files[]'
