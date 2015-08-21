@@ -5,15 +5,17 @@ end
 require "ouvrages_file_uploader/engine"
 
 module OuvragesFileUploader
-  def accepts_uploaded_file_for(attachment)
-    attachment_uploaded_file_id = "#{attachment}_uploaded_file_id"
-    attr_reader attachment_uploaded_file_id.to_sym
-    attr_accessible attachment_uploaded_file_id.to_sym
-    define_method("#{attachment_uploaded_file_id}=") do |id|
-      unless id.blank?
-        instance_variable_set("@#{attachment_uploaded_file_id}", id)
-        if uploaded_file = UploadedFile.where(id: id).first
-          self.send("#{attachment}=",  File.open(uploaded_file.file.path))
+  module ActiveRecordHelpers
+    def accepts_uploaded_file_for(attachment)
+      attachment_uploaded_file_id = "#{attachment}_uploaded_file_id"
+      attr_reader attachment_uploaded_file_id.to_sym
+      attr_accessible attachment_uploaded_file_id.to_sym
+      define_method("#{attachment_uploaded_file_id}=") do |id|
+        unless id.blank?
+          instance_variable_set("@#{attachment_uploaded_file_id}", id)
+          if uploaded_file = UploadedFile.where(id: id).first
+            self.send("#{attachment}=",  File.open(uploaded_file.file.path))
+          end
         end
       end
     end
@@ -25,5 +27,5 @@ module OuvragesFileUploader
   end
 end
 
-ActiveRecord::Base.extend OuvragesFileUploader
+ActiveRecord::Base.extend OuvragesFileUploader::ActiveRecordHelpers
 ActionController::Base.send(:helper, OuvragesFileUploader::Helpers)
