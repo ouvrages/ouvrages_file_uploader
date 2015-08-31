@@ -13,11 +13,13 @@ $.fn.ouvragesFileUpload = ->
         $(this).closest('.ofu-field').find('.ofu-progress-bar').css('width', progress + "%").text(progress + "%")
     ).bind('fileuploadstart', (e, data) ->
       window.ofuFileCount++
-      $(this).closest('.ofu-field').find('.ofu-files-container').empty()
-      $(this).closest('.ofu-field').find('.ofu-files-container').append("<div class='progress'><div class='ofu-progress-bar bar' style='width: 0;'></div></div>")
+      filesContainer = $(this).closest('.ofu-field').find('.ofu-files-container')
+      filesContainer.empty()
+      filesContainer.append("<div class='progress'><div class='ofu-progress-bar bar' style='width: 0;'></div></div>")
       return
     ).bind('fileuploaddone', (e, data) ->
       $(this).closest('.ofu-field').find('input[type=hidden]').val(data.result.files[0].id)
+      $(this).closest('.ofu-field').find('.ofu-progress-bar').text($(this).closest('.ofu-field').data('text'))
 
       window.ofuFileCount--
       return
