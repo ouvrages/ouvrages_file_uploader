@@ -18,8 +18,12 @@ $.fn.ouvragesFileUpload = ->
       filesContainer.append("<div class='progress'><div class='ofu-progress-bar bar' style='width: 0;'></div></div>")
       return
     ).bind('fileuploaddone', (e, data) ->
-      $(this).closest('.ofu-field').find('input[type=hidden]').val(data.result.files[0].id)
-      $(this).closest('.ofu-field').find('.ofu-progress-bar').text($(this).closest('.ofu-field').data('text'))
+      if data.result.error or !data.result.files or data.result.files.length == 0
+        $(this).closest('.ofu-field').find('.ofu-progress-bar').text("Error").closest(".progress").addClass("progress-danger")
+        alert(data.result.error.message) if data.result.error.message
+      else
+        $(this).closest('.ofu-field').find('input[type=hidden]').val(data.result.files[0].id)
+        $(this).closest('.ofu-field').find('.ofu-progress-bar').text($(this).closest('.ofu-field').data('text'))
 
       window.ofuFileCount--
       return
