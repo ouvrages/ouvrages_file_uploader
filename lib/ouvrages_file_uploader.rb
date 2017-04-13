@@ -4,6 +4,10 @@ end
 
 require "ouvrages_file_uploader/engine"
 
+if (::Rails.env.test? or ::Rails.env.development?) and ENV["FILEUPLOAD_HASH_SECRET"].nil?
+  ENV["FILEUPLOAD_HASH_SECRET"] = "secret"
+end
+
 module OuvragesFileUploader
   module ActiveRecordHelpers
     def accepts_uploaded_file_for(attachment)
