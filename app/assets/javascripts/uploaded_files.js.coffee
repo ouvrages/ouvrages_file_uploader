@@ -8,6 +8,8 @@ $.fn.ouvragesFileUpload = ->
       uploadTemplateId: null
       downloadTemplateId: null
       paramName: 'files[]'
+      dropZone: this
+      pasteZone: this
       progressall: (e, data) ->
         progress = parseInt(data.loaded / data.total * 100, 10)
         $(this).closest('.ofu-field').find('.ofu-progress-bar').css('width', progress + "%").text(progress + "%")
